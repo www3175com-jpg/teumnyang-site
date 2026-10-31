@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>틈냥 그림 원본 받기 (임시)</title>
+<style>
+  body { margin: 0; padding: 32px 16px; font: 16px/1.6 system-ui, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; background: #fbf5ec; color: #473e37; }
+  main { max-width: 560px; margin: 0 auto; }
+  h1 { font-size: 24px; margin: 0 0 8px; }
+  p { margin: 0 0 16px; color: #6f6358; }
+  button { display: block; width: 100%; min-height: 52px; margin: 12px 0; border: 0; border-radius: 999px; background: #5b6a8e; color: #fff; font: inherit; font-weight: 700; cursor: pointer; }
+  button:disabled { background: #b8b0a6; cursor: default; }
+  #log { white-space: pre-wrap; font-size: 14px; background: #fffbf4; border: 1px solid #efe3d2; border-radius: 12px; padding: 12px; min-height: 60px; }
+</style>
+<main>
+  <h1>테마 가구 그림 5장 받기</h1>
+  <p>버튼을 한 번 누르면 약 90MB ZIP 하나가 저장돼요. 이 페이지는 받은 뒤 지워요.</p>
+  <button id="b1">받기 — 벚꽃·바다·노을·겨울·별밤 가구 (5장)</button>
+  <div id="log">대기 중</div>
+</main>
+<script>
+const FILES_ALL = [{"url": "https://v3b.fal.media/files/b/0ab08f5e/CGiPuGbRpJMTA02-CP1qn_JU15YXXa.png", "name": "r7_theme_t02.png"}, {"url": "https://v3b.fal.media/files/b/0ab08f5e/oEoKx7sy4u_M5fj7EgNpA_SEPxIJqW.png", "name": "r7_theme_t03.png"}, {"url": "https://v3b.fal.media/files/b/0ab08f5e/fyxTN369dzMdkk8r8iU8c_POB7RO4J.png", "name": "r7_theme_t04.png"}, {"url": "https://v3b.fal.media/files/b/0ab08f5e/VP5BM-goHuNEuxrYQTKvQ_B1xa9tGQ.png", "name": "r7_theme_t05.png"}, {"url": "https://v3b.fal.media/files/b/0ab08f5e/De2fEkkkPZkOINV8SGSZv_HOSkhcxz.png", "name": "r7_theme_t06.png"}];
+const log = (t) => { document.getElementById('log').textContent = t; };
+async function makeZip(FILES, ZIP, progress) {
+  const files = FILES;
+  const zipName = ZIP;
+  const table = new Uint32Array(256);
+  for (let n = 0; n < 256; n++) {
+    let c = n;
+    for (let k = 0; k < 8; k++) c = c & 1 ? 0xEDB88320 ^ (c >>> 1) : c >>> 1;
+    table[n] = c >>> 0;
+  }
+  const crc32 = (buf) => {
+    let c = 0xFFFFFFFF;
+    for (let i = 0; i < buf.length; i++) c = table[(c ^ buf[i]) & 0xFF] ^ (c >>> 8);
+    return (c ^ 0xFFFFFFFF) >>> 0;
+  };
+  const enc = new TextEncoder();
+  const parts = [];
+  const central = [];
+  let offset = 0;
+  const report = [];
+  for (const f of files) {
+    progress(files.indexOf(f) + 1, files.length); const res = await fetch(f.url);
+    if (!res.ok) { report.push({ name: f.name, error: res.status }); continue; }
+    const data = new Uint8Array(await res.arrayBuffer());
+    const name = enc.encode(f.name);
+    const crc = crc32(data);
+    const lh = new DataView(new ArrayBuffer(30));
+    lh.setUint32(0, 0x04034b50, true); lh.setUint16(4, 20, true); lh.setUint16(6, 0x0800, true); lh.setUint16(8, 0, true);
+    lh.setUint16(10, 0, true); lh.setUint16(12, 0x21, true); lh.setUint32(14, crc, true);
+    lh.setUint32(18, data.length, true); lh.setUint32(22, data.length, true);
+    lh.setUint16(26, name.length, true); lh.setUint16(28, 0, true);
+    parts.push(new Uint8Array(lh.buffer), name, data);
+    const ch = new DataView(new ArrayBuffer(46));
+    ch.setUint32(0, 0x02014b50, true); ch.setUint16(4, 20, true); ch.setUint16(6, 20, true); ch.setUint16(8, 0x0800, true);
+    ch.setUint16(10, 0, true); ch.setUint16(12, 0, true); ch.setUint16(14, 0x21, true); ch.setUint32(16, crc, true);
+    ch.setUint32(20, data.length, true); ch.setUint32(24, data.length, true); ch.setUint16(28, name.length, true);
+    ch.setUint16(30, 0, true); ch.setUint16(32, 0, true); ch.setUint16(34, 0, true); ch.setUint16(36, 0, true);
+    ch.setUint32(38, 0, true); ch.setUint32(42, offset, true);
+    central.push(new Uint8Array(ch.buffer), name);
+    offset += 30 + name.length + data.length;
+    report.push({ name: f.name, bytes: data.length, crc: crc.toString(16) });
+  }
+  const cdSize = central.reduce((s, p) => s + p.length, 0);
+  const end = new DataView(new ArrayBuffer(22));
+  end.setUint32(0, 0x06054b50, true); end.setUint16(8, central.length / 2, true); end.setUint16(10, central.length / 2, true);
+  end.setUint32(12, cdSize, true); end.setUint32(16, offset, true); end.setUint16(20, 0, true);
+  const blob = new Blob([...parts, ...central, new Uint8Array(end.buffer)], { type: 'application/zip' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = zipName;
+  document.body.appendChild(a);
+  a.click();
+  return { size: blob.size, report };
+}
+const btn = document.getElementById('b1');
+btn.addEventListener('click', async () => {
+  btn.disabled = true;
+  try {
+    const r = await makeZip(FILES_ALL, 'teumnyang_themes_r7.zip', (i, n) => log(`${i}/${n}장 받는 중…`));
+    const bad = r.report.filter(x => x.error);
+    log(`완료: teumnyang_themes_r7.zip (${Math.round(r.size / 1048576)}MB)` + (bad.length ? ` — 실패 ${bad.length}장` : ''));
+  } catch (e) {
+    log(`실패: ${e} — 다시 눌러 주세요`);
+    btn.disabled = false;
+  }
+});
+</script>
+</html>
