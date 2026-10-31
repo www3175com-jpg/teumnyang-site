@@ -196,22 +196,23 @@ h1 .soft { color: var(--coral); }
 .themes .wrap > p { margin: 0 0 8px; color: var(--ink-soft); max-width: 40em; }
 .theme-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 @media (max-width: 760px) { .theme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
-.theme-grid figure { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 8px; }
+.theme-grid figure { position: relative; margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 8px; }
 .theme-grid img { width: 100%; height: auto; border-radius: 16px; aspect-ratio: 480 / 414; object-fit: cover; }
 .theme-grid figcaption { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 6px 2px; }
 .theme-grid figcaption b { font-family: var(--display); font-size: 22px; font-weight: 700; line-height: 1.1; }
 .theme-grid figcaption span { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: #6e5cc2; color: #fff; flex: none; }
 .theme-grid figure:first-child figcaption span { background: var(--sage); color: var(--ink); }
+/* 휴대폰: 칸이 좁아 이름 옆 표시가 들쭉날쭉 줄바꿈되므로, 표시는 그림 왼쪽 위에 얹고 이름만 한 줄로 */
 @media (max-width: 760px) {
-  .theme-grid figcaption { flex-wrap: wrap; row-gap: 4px; }
-  .theme-grid figcaption b { font-size: 19px; }
+  .theme-grid figcaption { display: block; padding: 8px 4px 2px; line-height: 1.15; text-wrap: balance; }
+  .theme-grid figcaption b { font-size: clamp(16px, 4.9vw, 19px); }
+  .theme-grid figcaption span { position: absolute; top: 15px; left: 15px; font-size: 11px; box-shadow: 0 1px 6px rgba(40, 30, 20, 0.2); }
 }
 
 /* 고양이 */
 .cats .wrap { padding-block: 72px; display: grid; gap: 28px; }
 .cats h2, .plus h2, .faq h2 { font-size: clamp(34px, 5vw, 48px); }
 .cat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
-@media (max-width: 680px) { .cat-grid { grid-template-columns: 1fr; } }
 .cat {
   display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; align-items: center;
   padding: 16px; border-radius: 24px; background: var(--card); border: 1px solid var(--line);
@@ -219,6 +220,18 @@ h1 .soft { color: var(--coral); }
 .cat img { width: 96px; height: 96px; object-fit: contain; }
 .cat h3 { font-size: 30px; }
 .cat p { margin: 2px 0 0; color: var(--ink-soft); font-size: 15px; }
+.cat .badge { display: inline-block; vertical-align: middle; font: 800 11px/1 system-ui, sans-serif; letter-spacing: .04em;
+  color: #fff; background: #6e5cc2; border-radius: 999px; padding: 4px 7px; }
+.cats .wrap > p { margin: -6px 0 18px; color: var(--ink-soft); }
+/* 휴대폰: 아홉 마리를 세 칸짜리 작은 카드로 (한 줄씩 길게 늘어나지 않게) */
+@media (max-width: 680px) {
+  .cat-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .cat { grid-template-columns: 1fr; justify-items: center; align-content: start; text-align: center; gap: 4px; padding: 12px 6px; border-radius: 20px; }
+  .cat img { width: 68px; height: 68px; }
+  .cat h3 { font-size: 22px; }
+  .cat p { font-size: 12px; line-height: 1.35; }
+  .cat .badge { display: block; margin: 2px auto 0; width: max-content; }
+}
 
 /* PLUS */
 .plus { background: linear-gradient(180deg, var(--paper), var(--evening)); }
@@ -403,14 +416,14 @@ footer .biz { flex-basis: 100%; margin: 0; font-size: 12.5px; line-height: 1.6; 
   <section class="themes" id="themes" aria-labelledby="t-themes">
     <div class="wrap">
       <h2 id="t-themes">방 분위기를 바꾸는 테마 여섯 가지</h2>
-      <p>테마를 바꾸면 벽지·바닥·창문과 창밖 풍경, 방 안에 떠다니는 것까지 함께 바뀌어요. 꾸며 둔 가구와 소품은 그대로예요.</p>
+      <p>테마마다 전용 가구와 방 구조가 달라요. 테마를 바꾸면 벽·바닥·창문과 창밖 풍경, 침대·책상·소품까지 그 테마의 방으로 바뀌고, 꾸며 둔 방은 테마마다 기억해 둬요.</p>
       <div class="theme-grid">
         <figure><img src="assets/theme_t01.jpg" alt="따뜻한 방 테마: 크림색 벽과 나무 바닥, 햇살 드는 창" width="480" height="414" loading="lazy"><figcaption><b>따뜻한 방</b><span>기본</span></figcaption></figure>
-        <figure><img src="assets/theme_t02.jpg" alt="벚꽃 방 테마: 분홍 벽지와 카펫, 벚꽃잎이 흩날리는 창" width="480" height="414" loading="lazy"><figcaption><b>벚꽃 방</b><span>PLUS</span></figcaption></figure>
-        <figure><img src="assets/theme_t03.jpg" alt="여름 바닷가 테마: 파란 줄무늬 벽과 동그란 바다 창" width="480" height="414" loading="lazy"><figcaption><b>여름 바닷가</b><span>PLUS</span></figcaption></figure>
-        <figure><img src="assets/theme_t04.jpg" alt="가을 노을 테마: 주황빛 벽과 노을이 비치는 아치 창, 떨어지는 낙엽" width="480" height="414" loading="lazy"><figcaption><b>가을 노을</b><span>PLUS</span></figcaption></figure>
-        <figure><img src="assets/theme_t05.jpg" alt="겨울 눈 오는 방 테마: 통나무 벽과 눈 쌓인 창, 내리는 눈" width="480" height="414" loading="lazy"><figcaption><b>겨울 눈 오는 방</b><span>PLUS</span></figcaption></figure>
-        <figure><img src="assets/theme_t06.jpg" alt="별빛 밤 테마: 보랏빛 밤하늘 벽지와 반짝이는 별, 가로등 켜진 창밖" width="480" height="414" loading="lazy"><figcaption><b>별빛 밤</b><span>PLUS</span></figcaption></figure>
+        <figure><img src="assets/theme_t02.jpg" alt="벚꽃 방 테마: 분홍 벽지와 카펫, 캐노피 침대와 낮은 찻상, 벚꽃잎이 흩날리는 창" width="480" height="414" loading="lazy"><figcaption><b>벚꽃 방</b><span>PLUS</span></figcaption></figure>
+        <figure><img src="assets/theme_t03.jpg" alt="여름 바닷가 테마: 파란 줄무늬 벽과 동그란 바다 창, 해먹과 서핑보드" width="480" height="414" loading="lazy"><figcaption><b>여름 바닷가</b><span>PLUS</span></figcaption></figure>
+        <figure><img src="assets/theme_t04.jpg" alt="가을 노을 테마: 주황빛 벽과 아치 창, 책장 책상과 단풍나무, 떨어지는 낙엽" width="480" height="414" loading="lazy"><figcaption><b>가을 노을</b><span>PLUS</span></figcaption></figure>
+        <figure><img src="assets/theme_t05.jpg" alt="겨울 눈 오는 방 테마: 통나무 벽 가운데 벽난로와 화환, 크리스마스트리, 내리는 눈" width="480" height="414" loading="lazy"><figcaption><b>겨울 눈 오는 방</b><span>PLUS</span></figcaption></figure>
+        <figure><img src="assets/theme_t06.jpg" alt="별빛 밤 테마: 보랏빛 밤하늘 벽지, 구름 침대와 망원경, 천장의 달 모빌" width="480" height="414" loading="lazy"><figcaption><b>별빛 밤</b><span>PLUS</span></figcaption></figure>
       </div>
     </div>
   </section>
@@ -418,10 +431,17 @@ footer .biz { flex-basis: 100%; margin: 0; font-size: 12.5px; line-height: 1.6; 
   <section class="cats" id="cats" aria-labelledby="t-cats">
     <div class="wrap">
       <h2 id="t-cats">함께 살 고양이를 골라요</h2>
+      <p>여섯 마리 중에서 처음 함께할 고양이를 고르고, 마이 › 내 고양이에서 언제든 바꿀 수 있어요. 고양이마다 지어 준 이름도 따로 기억해요.</p>
       <div class="cat-grid">
-        <article class="cat"><img src="assets/cat_mochi_sit.png" alt="치즈 무늬 고양이 모찌"><div><h3>모찌</h3><p>느긋하고 애교 많은 치즈냥</p></div></article>
-        <article class="cat"><img src="assets/cat_haru_sit.png" alt="고등어 무늬 고양이 하루"><div><h3>하루</h3><p>호기심 많고 활발한 고등어냥</p></div></article>
-        <article class="cat"><img src="assets/cat_bami_sit.png" alt="까만 고양이 밤이"><div><h3>밤이</h3><p>조용하고 다정한 까만냥</p></div></article>
+        <article class="cat"><img src="assets/cat_mochi_sit.png" alt="치즈 무늬 고양이 모찌" width="96" height="96"><div><h3>모찌</h3><p>느긋하고 애교 많은 치즈냥</p></div></article>
+        <article class="cat"><img src="assets/cat_haru_sit.png" alt="고등어 무늬 고양이 하루" width="96" height="96"><div><h3>하루</h3><p>호기심 많고 활발한 고등어냥</p></div></article>
+        <article class="cat"><img src="assets/cat_bami_sit.png" alt="까만 고양이 밤이" width="96" height="96"><div><h3>밤이</h3><p>조용하고 다정한 까만냥</p></div></article>
+        <article class="cat"><img src="assets/cat_nabi_sit.png" alt="삼색 고양이 나비" width="96" height="96" loading="lazy"><div><h3>나비</h3><p>씩씩하고 다정한 삼색냥</p></div></article>
+        <article class="cat"><img src="assets/cat_danchu_sit.png" alt="턱시도 고양이 단추" width="96" height="96" loading="lazy"><div><h3>단추</h3><p>장난기 가득한 턱시도냥</p></div></article>
+        <article class="cat"><img src="assets/cat_hobak_sit.png" alt="주황 줄무늬 고양이 호박" width="96" height="96" loading="lazy"><div><h3>호박</h3><p>먹는 게 제일 좋은 줄무늬 치즈냥</p></div></article>
+        <article class="cat plus-cat"><img src="assets/cat_latte_sit.png" alt="샴 고양이 라떼 (PLUS)" width="96" height="96" loading="lazy"><div><h3>라떼 <span class="badge">PLUS</span></h3><p>수다스럽고 다정한 샴냥</p></div></article>
+        <article class="cat plus-cat"><img src="assets/cat_dali_sit.png" alt="러시안블루 고양이 달이 (PLUS)" width="96" height="96" loading="lazy"><div><h3>달이 <span class="badge">PLUS</span></h3><p>도도해 보여도 속은 따뜻한 러시안블루</p></div></article>
+        <article class="cat plus-cat"><img src="assets/cat_gureum_sit.png" alt="하얀 장모 오드아이 고양이 구름 (PLUS)" width="96" height="96" loading="lazy"><div><h3>구름 <span class="badge">PLUS</span></h3><p>몽글몽글 솜뭉치 오드아이</p></div></article>
       </div>
     </div>
   </section>
@@ -431,11 +451,12 @@ footer .biz { flex-basis: 100%; margin: 0; font-size: 12.5px; line-height: 1.6; 
       <div>
         <h2 id="t-plus">틈냥 PLUS</h2>
         <p>기본 기능은 모두 무료예요. 방을 더 다양하게 꾸미고 싶다면 PLUS로 열어 보세요.</p>
-        <p class="note">월간·연간(처음이면 7일 무료 체험)·평생 이용권 중에서 고를 수 있어요. 가격은 App Store 앱 안에서 안내해요. 해지해도 꾸며 둔 방은 지워지지 않고, 다시 가입하면 그대로 돌아와요.</p>
+        <p class="note">월간·연간(처음이면 7일 무료 체험)·평생 이용권 중에서 고를 수 있어요. 가격은 App Store 앱 안에서 안내해요. 해지해도 꾸며 둔 방과 데려온 고양이 기록은 지워지지 않고, 다시 가입하면 그대로 돌아와요.</p>
       </div>
       <ul class="perks">
-        <li><img src="assets/decor_window_basic.png" alt=""><div><b>프리미엄 테마 다섯 가지</b><span>벚꽃, 여름 바닷가, 가을 노을, 겨울 눈, 별빛 밤</span></div></li>
-        <li><img src="assets/decor_lamp_moon.png" alt=""><div><b>한정 가구와 소품</b><span>벚꽃 침대, 별 조명, 밤하늘 벽지 등 PLUS 전용 꾸미기를 사지 않고 바로 놓아요</span></div></li>
+        <li><img src="assets/decor_window_basic.png" alt=""><div><b>프리미엄 테마 다섯 가지</b><span>벚꽃, 여름 바닷가, 가을 노을, 겨울 눈, 별빛 밤 — 테마마다 전용 가구 한 벌과 다른 방 구조</span></div></li>
+        <li><img src="assets/cat_latte_sit.png" alt=""><div><b>PLUS 고양이 세 마리</b><span>라떼, 달이, 구름과 함께 살아요</span></div></li>
+        <li><img src="assets/decor_lamp_moon.png" alt=""><div><b>한정 가구와 소품</b><span>해먹, 벽난로, 구름 침대 등 PLUS 전용 꾸미기를 사지 않고 바로 놓아요</span></div></li>
         <li><img src="assets/icon_sun.png" alt=""><div><b>특별한 알람음</b><span>하프 아침, 칼림바</span></div></li>
         <li><img src="assets/icon_churu.png" alt=""><div><b>매일 냠냠이 선물</b><span>하루 선물에 냠냠이 20개를 더 받아요</span></div></li>
       </ul>
@@ -446,7 +467,7 @@ footer .biz { flex-basis: 100%; margin: 0; font-size: 12.5px; line-height: 1.6; 
     <div class="wrap">
       <h2 id="t-faq">자주 묻는 질문</h2>
       <div>
-        <details open><summary>무료로 쓸 수 있나요?</summary><p>네. 일정과 오늘의 약속, 캘린더, 알람, 집중 타이머, 냥일기, 방 꾸미기, 위젯 같은 기본 기능은 무료예요. 추가 테마와 일부 가구·알람음은 PLUS에서 열려요.</p></details>
+        <details open><summary>무료로 쓸 수 있나요?</summary><p>네. 일정과 오늘의 약속, 캘린더, 알람, 집중 타이머, 냥일기, 방 꾸미기, 위젯 같은 기본 기능은 무료예요. 추가 테마와 PLUS 고양이, 일부 가구·알람음은 PLUS에서 열려요.</p></details>
         <details><summary>광고가 나오나요?</summary><p>화면을 가리는 광고는 없어요. 냠냠이가 더 필요할 때 원하면 짧은 영상을 보고 받는 기능을 준비하고 있어요. PLUS에서는 광고가 나오지 않아요.</p></details>
         <details><summary>내 일정은 어디에 저장되나요?</summary><p>내 휴대폰 안에 저장돼서 인터넷이 없어도 쓸 수 있어요. 휴대폰을 바꿀 때는 마이 → 기록 백업에서 파일로 내보내고, 새 휴대폰에서 가져오면 돼요.</p></details>
         <details><summary>알람은 무음 모드에서도 울리나요?</summary><p>iOS 26 이상에서는 시스템 알람으로 예약해 무음·집중 모드에서도 울려요. 그보다 낮은 버전에서는 알림으로 알려 드리고, 알람 화면에 그 사실을 안내해요.</p></details>
