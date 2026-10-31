@@ -1,0 +1,57 @@
+:root {
+  --paper: #fbf5ec;
+  --card: #fffbf4;
+  --line: #efe3d2;
+  --ink: #473e37;
+  --ink-soft: #85786c;
+  --navy: #5b6a8e;
+  --todo: #fff1b8;
+  --display: "Gaegu", "Nanum Pen Script", "Apple SD Gothic Neo", "Noto Sans KR", cursive;
+  --body: "Gowun Dodum", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1e1a17; --card: #2a2420; --line: #3a322c; --ink: #f3e9dc; --ink-soft: #bcae9f; --navy: #9aa8cf; --todo: #5a4a12;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1e1a17; --card: #2a2420; --line: #3a322c; --ink: #f3e9dc; --ink-soft: #bcae9f; --navy: #9aa8cf; --todo: #5a4a12;
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.75;
+}
+.wrap { max-width: 760px; margin: 0 auto; padding: 0 16px; }
+header.top {
+  border-bottom: 1px solid var(--line);
+  background: var(--card);
+}
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; }
+.brand { font-family: var(--display); font-size: 30px; font-weight: 700; color: var(--ink); text-decoration: none; }
+nav.legal-nav { display: flex; gap: 14px; flex-wrap: wrap; font-size: 14px; }
+nav.legal-nav a { color: var(--ink-soft); text-decoration: none; padding: 10px 2px; }
+nav.legal-nav a[aria-current="page"] { color: var(--navy); font-weight: 700; }
+main { padding: 32px 0 56px; }
+h1 { font-family: var(--display); font-size: 40px; line-height: 1.2; margin: 0 0 6px; }
+.updated { color: var(--ink-soft); font-size: 14px; margin: 0 0 24px; }
+h2 { font-size: 19px; margin: 34px 0 8px; padding-top: 8px; border-top: 1px dashed var(--line); }
+h3 { font-size: 16px; margin: 18px 0 4px; }
+p, li { color: var(--ink); }
+ul, ol { padding-left: 22px; }
+table { width: 100%; border-collapse: collapse; margin: 10px 0; font-size: 15px; display: block; overflow-x: auto; }
+th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; min-width: 120px; }
+th { background: var(--card); }
+.note { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; color: var(--ink-soft); font-size: 15px; }
+mark.todo { background: var(--todo); color: inherit; padding: 0 4px; border-radius: 4px; }
+a { color: var(--navy); }
+footer { border-top: 1px solid var(--line); padding: 20px 0 40px; color: var(--ink-soft); font-size: 14px; }
+@media (max-width: 480px) {
+  h1 { font-size: 34px; }
+  header.top .wrap { flex-wrap: wrap; padding-top: 8px; padding-bottom: 8px; }
+}

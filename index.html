@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>틈냥</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="오늘 꼭 지킬 약속 세 가지를 고르면, 방 안의 고양이가 하루 내내 응원해요. 해낸 만큼 냥별이 쌓이고 방이 예뻐지는 일정 앱 틈냥.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gaegu:wght@400;700&family=Gowun+Dodum&display=swap">
+<style>
+/* 레이아웃: 고양이 방의 하루(아침 → 낮 → 저녁 → 밤)를 따라 내려가는 세로 이야기. 시간대마다 띠의 빛깔이 바뀐다. */
+:root {
+  --paper: #fbf5ec;
+  --card: #fffbf4;
+  --line: #efe3d2;
+  --ink: #473e37;
+  --ink-soft: #85786c;
+  --navy: #5b6a8e;
+  --coral: #e98a85;
+  --sage: #b5d5c4;
+  --morning: #ffe8d1;
+  --noon: #fff3df;
+  --evening: #f9d2b8;
+  --night: #2f2b52;
+  --night-ink: #f6eedf;
+  --night-soft: #c9c0dd;
+  --shadow: rgba(140, 110, 85, 0.16);
+  --display: "Gaegu", "Nanum Pen Script", "Apple SD Gothic Neo", "Noto Sans KR", cursive;
+  --body: "Gowun Dodum", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #1e1a17; --card: #2a2420; --line: #3a322c; --ink: #f3e9dc; --ink-soft: #bcae9f;
+    --navy: #9aa8d1; --coral: #ee9a95; --sage: #6f9483;
+    --morning: #3a2c25; --noon: #2c2621; --evening: #3d2a22; --night: #1a1833; --night-ink: #f6eedf; --night-soft: #b9b0d2;
+    --shadow: rgba(0, 0, 0, 0.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #1e1a17; --card: #2a2420; --line: #3a322c; --ink: #f3e9dc; --ink-soft: #bcae9f;
+  --navy: #9aa8d1; --coral: #ee9a95; --sage: #6f9483;
+  --morning: #3a2c25; --noon: #2c2621; --evening: #3d2a22; --night: #1a1833; --night-ink: #f6eedf; --night-soft: #b9b0d2;
+  --shadow: rgba(0, 0, 0, 0.35);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 17px;
+  line-height: 1.7;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+body::before {
+  content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10;
+  background: var(--paper);
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+:focus-visible { outline: 3px solid var(--navy); outline-offset: 3px; border-radius: 8px; }
+
+.wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+/* 머리 */
+.top {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
+  background: color-mix(in srgb, var(--paper) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 10px; }
+.brand { display: flex; align-items: center; gap: 8px; font-family: var(--display); font-weight: 700; font-size: 30px; line-height: 1; text-decoration: none; }
+.brand img { width: 34px; height: 34px; object-fit: contain; }
+.top nav { display: flex; gap: 18px; font-size: 15px; color: var(--ink-soft); }
+.top nav a { text-decoration: none; }
+.top nav a:hover { color: var(--ink); }
+@media (max-width: 560px) { .top nav { display: none; } }
+
+/* 첫 화면 */
+.hero { background: linear-gradient(180deg, var(--morning), var(--paper)); }
+.hero .wrap { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 40px; align-items: center; padding-block: 56px 72px; }
+@media (max-width: 820px) { .hero .wrap { grid-template-columns: 1fr; padding-block: 36px 56px; } }
+.eyebrow { font-size: 15px; letter-spacing: 0.04em; color: var(--ink-soft); margin: 0 0 10px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 700; line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(44px, 7vw, 72px); }
+h1 .soft { color: var(--coral); }
+.lede { font-size: 18px; max-width: 34em; margin: 18px 0 26px; color: var(--ink); }
+.stores { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.store {
+  display: inline-flex; align-items: center; gap: 10px; min-height: 52px; padding: 8px 18px;
+  border-radius: 999px; background: var(--navy); color: #fff; font-size: 15px; line-height: 1.25;
+}
+.store small { display: block; font-size: 12px; opacity: 0.85; }
+.store.quiet { background: transparent; color: var(--ink-soft); border: 1.5px dashed var(--line); }
+.store svg { width: 22px; height: 22px; flex: none; }
+
+.phone-stage { position: relative; justify-self: center; width: min(320px, 82vw); }
+.phone {
+  position: relative; border-radius: 44px; padding: 10px; background: #2d2622;
+  box-shadow: 0 30px 60px -20px var(--shadow), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+.phone img { border-radius: 34px; width: 100%; height: auto; }
+.sticker { position: absolute; filter: drop-shadow(0 6px 10px var(--shadow)); pointer-events: none; }
+.sticker.wave { width: 34%; left: -24%; bottom: 12%; }
+.sticker.star { width: 15%; right: -9%; top: 10%; animation: bob 4.5s ease-in-out infinite; }
+.sticker.churu { width: 12%; right: -6%; top: 24%; animation: bob 5.2s ease-in-out infinite reverse; }
+@keyframes bob { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-8px) rotate(4deg); } }
+@media (prefers-reduced-motion: reduce) { .sticker { animation: none !important; } }
+
+/* 하루 흐름 */
+.day-intro .wrap { padding-block: 56px 8px; display: grid; gap: 10px; }
+.day-intro h2 { font-size: clamp(34px, 5vw, 48px); }
+.day-intro p { margin: 0; color: var(--ink-soft); max-width: 36em; }
+
+.slot { --band: var(--noon); background: var(--band); }
+.slot.morning { --band: var(--morning); }
+.slot.noon { --band: var(--noon); }
+.slot.evening { --band: var(--evening); }
+.slot.night { --band: var(--night); color: var(--night-ink); }
+.slot .wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 300px); gap: 40px; align-items: center; padding-block: 64px; }
+.slot.flip .wrap { grid-template-columns: minmax(0, 300px) minmax(0, 1fr); }
+.slot.flip .copy { order: 2; }
+@media (max-width: 760px) {
+  .slot .wrap, .slot.flip .wrap { grid-template-columns: 1fr; gap: 28px; padding-block: 48px; }
+  .slot.flip .copy { order: 0; }
+}
+.clock {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-variant-numeric: tabular-nums;
+  padding: 4px 12px; border-radius: 999px; background: var(--card); color: var(--ink); margin-bottom: 14px;
+}
+.slot.night .clock { background: rgba(255, 255, 255, 0.1); color: var(--night-ink); }
+.clock img { width: 20px; height: 20px; object-fit: contain; }
+.copy h3 { font-size: clamp(30px, 4.2vw, 42px); margin-bottom: 14px; }
+.copy p { margin: 0 0 14px; max-width: 32em; }
+.slot.night .copy p { color: var(--night-soft); }
+.facts { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 10px; }
+.facts li { display: flex; gap: 10px; align-items: baseline; }
+.facts b { font-family: var(--display); font-size: 24px; line-height: 1; min-width: 3.2em; color: var(--coral); font-variant-numeric: tabular-nums; }
+.slot.night .facts b { color: #ffd27a; }
+.shot { justify-self: center; width: min(280px, 76vw); border-radius: 34px; padding: 8px; background: #2d2622; box-shadow: 0 24px 48px -18px var(--shadow); }
+.shot img { border-radius: 27px; }
+
+/* 위젯 (홈 화면·잠금 화면 모양) */
+.widgets { background: linear-gradient(160deg, #6f7fb0 0%, #8f8cc0 45%, #c9a6c6 100%); color: #fff; }
+.widgets .wrap { padding-block: 64px; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 36px; align-items: center; }
+@media (max-width: 820px) { .widgets .wrap { grid-template-columns: 1fr; } }
+.widgets h2 { font-size: clamp(32px, 4.6vw, 44px); margin-bottom: 14px; }
+.widgets .copy p { color: rgba(255, 255, 255, 0.92); max-width: 30em; margin: 0; }
+.widget-row { display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; align-items: center; }
+/* 실제 위젯 화면(앱 단위 테스트가 그린 캡처) */
+.widget-shot { display: block; height: auto; filter: drop-shadow(0 16px 26px rgba(30, 24, 60, 0.35)); }
+.widget-shot--medium { flex: 1 1 100%; width: 100%; max-width: 364px; }
+.widget-shot--small { width: min(170px, 42vw); }
+.lock {
+  width: min(250px, 70vw); border-radius: 30px; padding: 18px 16px 20px; text-align: center;
+  background: linear-gradient(180deg, rgba(20, 18, 48, 0.55), rgba(20, 18, 48, 0.25)); border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.lock-time { font-size: 54px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.lock-widgets { display: flex; gap: 10px; justify-content: center; align-items: center; margin-top: 10px; }
+.lock-ring {
+  width: 64px; height: 64px; border-radius: 50%; display: grid; place-content: center; line-height: 1.05; font-size: 15px;
+  background: conic-gradient(#fff 0 33%, rgba(255, 255, 255, 0.25) 33% 100%); position: relative;
+}
+.lock-ring::before { content: ""; position: absolute; inset: 5px; border-radius: 50%; background: #4a4778; }
+.lock-ring > * { position: relative; }
+.lock-ring span { font-size: 11px; }
+.lock-rect { text-align: left; display: grid; font-size: 13px; line-height: 1.35; }
+.lock-rect b { font-size: 13.5px; }
+.lock-rect small { opacity: 0.8; }
+
+/* 테마 */
+.themes .wrap { padding-block: 72px 40px; display: grid; gap: 14px; }
+.themes h2 { font-size: clamp(32px, 4.6vw, 44px); }
+.themes .wrap > p { margin: 0 0 8px; color: var(--ink-soft); max-width: 40em; }
+.theme-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+@media (max-width: 760px) { .theme-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; } }
+.theme-grid figure { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 8px; }
+.theme-grid img { width: 100%; height: auto; border-radius: 16px; aspect-ratio: 480 / 414; object-fit: cover; }
+.theme-grid figcaption { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 8px 6px 2px; }
+.theme-grid figcaption b { font-family: var(--display); font-size: 22px; font-weight: 700; line-height: 1.1; }
+.theme-grid figcaption span { font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; background: #6e5cc2; color: #fff; flex: none; }
+.theme-grid figure:first-child figcaption span { background: var(--sage); color: var(--ink); }
+@media (max-width: 760px) {
+  .theme-grid figcaption { flex-wrap: wrap; row-gap: 4px; }
+  .theme-grid figcaption b { font-size: 19px; }
+}
+
+/* 고양이 */
+.cats .wrap { padding-block: 72px; display: grid; gap: 28px; }
+.cats h2, .plus h2, .faq h2 { font-size: clamp(34px, 5vw, 48px); }
+.cat-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+@media (max-width: 680px) { .cat-grid { grid-template-columns: 1fr; } }
+.cat {
+  display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 14px; align-items: center;
+  padding: 16px; border-radius: 24px; background: var(--card); border: 1px solid var(--line);
+}
+.cat img { width: 96px; height: 96px; object-fit: contain; }
+.cat h3 { font-size: 30px; }
+.cat p { margin: 2px 0 0; color: var(--ink-soft); font-size: 15px; }
+
+/* PLUS */
+.plus { background: linear-gradient(180deg, var(--paper), var(--evening)); }
+.plus .wrap { padding-block: 72px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: center; }
+@media (max-width: 760px) { .plus .wrap { grid-template-columns: 1fr; } }
+.perks { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.perks li { display: grid; grid-template-columns: 34px minmax(0, 1fr); gap: 12px; align-items: start; padding: 14px 16px; border-radius: 20px; background: var(--card); }
+.perks img { width: 34px; height: 34px; object-fit: contain; }
+.perks b { display: block; }
+.perks span { color: var(--ink-soft); font-size: 15px; }
+.plus .note { color: var(--ink-soft); font-size: 15px; margin-top: 12px; }
+
+/* 자주 묻는 질문 */
+.faq .wrap { padding-block: 72px; display: grid; gap: 20px; max-width: 820px; }
+.faq details { border-bottom: 1px solid var(--line); padding-block: 14px; }
+.faq summary { cursor: pointer; font-size: 18px; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-family: var(--display); font-size: 26px; line-height: 1; color: var(--coral); }
+.faq details[open] summary::after { content: "−"; }
+.faq details p { margin: 10px 0 0; color: var(--ink-soft); }
+
+footer { border-top: 1px solid var(--line); }
+footer .wrap { padding-block: 28px 40px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: var(--ink-soft); font-size: 14px; }
+footer .brand { font-size: 24px; color: var(--ink); }
+footer .biz { flex-basis: 100%; margin: 0; font-size: 12.5px; line-height: 1.6; color: var(--ink-soft); }
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top"><img src="assets/icon_paw.png" alt="">틈냥</a>
+    <nav aria-label="페이지 안 이동">
+      <a href="#day">틈냥의 하루</a>
+      <a href="#themes">테마</a>
+      <a href="#widgets">위젯</a>
+      <a href="#plus">PLUS</a>
+      <a href="#faq">자주 묻는 질문</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">고양이와 함께 쓰는 하루 계획 앱</p>
+        <h1>오늘의 약속 세 가지,<br><span class="soft">고양이랑</span> 같이 지켜요.</h1>
+        <p class="lede">할 일은 몇 개든 적어도 괜찮아요. 그중 꼭 지킬 세 가지만 고르면, 방 안의 고양이가 하루 내내 곁에서 응원해요. 해낼 때마다 냥별이 쌓이고, 고양이 방이 조금씩 예뻐져요.</p>
+        <div class="stores">
+          <span class="store" role="note">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.9-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.5.8 1.1 1.7 2.4 2.9 2.4 1.2 0 1.6-.8 3-.8s1.8.8 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.3-.9-2.3-3.9zM14.1 5.8c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.1 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z"/></svg>
+            <span>App Store<small>출시 준비 중</small></span>
+          </span>
+          <span class="store quiet" role="note">Google Play<br>아이폰 버전 다음에 준비해요</span>
+        </div>
+      </div>
+      <div class="phone-stage">
+        <div class="phone"><img src="assets/screen_home.jpg" alt="틈냥 홈 화면: 저녁빛 방에서 쿠션에 기대 쉬는 고양이, '지은아, 오늘도 수고했어!' 인사말, 오늘의 약속 세 가지 목록" width="600" height="1304"></div>
+        <img class="sticker wave" src="assets/cat_mochi_wave.png" alt="">
+        <img class="sticker star" src="assets/icon_star.png" alt="">
+        <img class="sticker churu" src="assets/icon_churu.png" alt="">
+      </div>
+    </div>
+  </section>
+
+  <section class="day-intro" id="day">
+    <div class="wrap">
+      <h2>틈냥의 하루</h2>
+      <p>방 안의 빛은 실제 시간을 따라 아침, 낮, 저녁, 밤으로 바뀌어요. 고양이도 그 시간에 맞게 기지개를 켜고, 응원하고, 잠들어요.</p>
+    </div>
+  </section>
+
+  <section class="slot morning" aria-labelledby="t-alarm">
+    <div class="wrap">
+      <div class="copy">
+        <span class="clock"><img src="assets/icon_sun.png" alt="">오전 7:00 · 아침</span>
+        <h3 id="t-alarm">고양이 알람이 아침을 깨워요</h3>
+        <p>평일 기상, 출근 준비처럼 요일마다 반복하는 알람을 만들어요. iOS 26부터는 무음·집중 모드에서도 시계 앱처럼 울리는 시스템 알람으로, 그 이전 버전에서는 알림으로 알려 드려요.</p>
+        <p>오르골·방울·아침 햇살·별빛 알람음은 고르기 전에 미리 들어 볼 수 있어요. 울릴 때 '다시 알림'을 누르면 5·10·15분 뒤에 다시 깨워요(iOS 26 이상).</p>
+      </div>
+      <div class="shot"><img src="assets/screen_alarm.jpg" alt="알람 목록 화면: 오전 7시 기상, 8시 30분 출근 준비, 낮 12시 점심, 오후 6시 운동 알람과 켜기 스위치" width="600" height="1304" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="slot morning flip" aria-labelledby="t-morning">
+    <div class="wrap">
+      <div class="copy">
+        <span class="clock"><img src="assets/icon_sun.png" alt="">오전 8:10 · 아침</span>
+        <h3 id="t-morning">고양이가 인사하면, 약속 세 가지를 골라요</h3>
+        <p>오늘 적은 일정 가운데 꼭 지킬 세 가지를 고르면 홈 맨 위에 올라와요. 고르지 않은 날에는 시간 순서대로 알아서 추천해 두고, 첫 일을 끝내는 순간 그대로 확정해요.</p>
+        <p>이름을 부르는 인사말과 말풍선은 시간대마다 달라요. 고양이를 톡 건드리면 통통 튀며 반응해요.</p>
+      </div>
+      <div class="shot"><img src="assets/screen_promises.jpg" alt="오늘의 약속 고르기 화면: 일정 목록에서 최대 세 개를 순서대로 고르는 모습" width="600" height="1304" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="slot noon" aria-labelledby="t-noon">
+    <div class="wrap">
+      <div class="copy">
+        <span class="clock"><img src="assets/icon_sun.png" alt="">오후 1:00 · 낮</span>
+        <h3 id="t-noon">한 달 일정은 캘린더로 한눈에</h3>
+        <p>날짜마다 일정이 점으로 보이고, 하루치를 다 끝낸 날엔 고양이 얼굴이 떠올라요. 매일·평일·매주·매월·매년 반복도 짧은 달과 윤년까지 맞춰 펼쳐요.</p>
+        <p>일정을 누르면 메모와 체크리스트, 알림 시간을 한 번에 보고 고칠 수 있어요.</p>
+      </div>
+      <div class="shot"><img src="assets/screen_calendar.jpg" alt="캘린더 화면: 2026년 10월 달력과 선택한 날의 일정 목록" width="600" height="1304" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="slot noon flip" aria-labelledby="t-focus">
+    <div class="wrap">
+      <div class="copy">
+        <span class="clock"><img src="assets/icon_sun.png" alt="">오후 3:00 · 낮</span>
+        <h3 id="t-focus">집중할 땐, 고양이도 곁에서 기다려요</h3>
+        <p>5분부터 50분까지 집중 시간을 고르고, 창밖 장면을 골라요. 빗소리·카페·숲·모닥불 소리가 함께 흘러요.</p>
+        <p>앱을 닫거나 화면이 꺼져도 끝나는 시각을 기준으로 정확하게 세고, 다 마치면 냥별을 받아요. 남은 시간은 잠금 화면과 Dynamic Island에서 졸린 고양이와 함께 보여요.</p>
+      </div>
+      <div class="shot"><img src="assets/screen_focus.jpg" alt="집중 타이머 화면: 모닥불 창가에서 잠든 고양이와 남은 시간 4분 58초" width="600" height="1304" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="slot evening" aria-labelledby="t-evening">
+    <div class="wrap">
+      <div class="copy">
+        <span class="clock"><img src="assets/icon_star.png" alt="">오후 7:30 · 저녁</span>
+        <h3 id="t-evening">해낸 만큼 냥별이 쌓여요</h3>
+        <p>체크할 때마다 냥별이 들어와요. 같은 일을 껐다 다시 켜도 두 번 받지는 않아요. 하루 한 번 선물 상자에서는 고양이 간식 냠냠이를 받아요.</p>
+        <ul class="facts">
+          <li><b>+2</b><span>할 일 하나를 끝냈을 때</span></li>
+          <li><b>+3</b><span>오늘의 약속을 지켰을 때</span></li>
+          <li><b>+10</b><span>세 가지를 모두 지킨 날의 보너스</span></li>
+        </ul>
+      </div>
+      <div class="shot"><img src="assets/screen_reward.jpg" alt="약속 하나를 끝내 냥별 3개를 받은 순간의 홈 화면" width="600" height="1304" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="slot evening flip" aria-labelledby="t-room">
+    <div class="wrap">
+      <div class="copy">
+        <span class="clock"><img src="assets/icon_star.png" alt="">오후 9:00 · 저녁</span>
+        <h3 id="t-room">모은 냥별로 고양이 방을 꾸며요</h3>
+        <p>냥마을 상점에서 침대와 책상, 창문, 러그, 화분을 들여 방에 놓아요. 놓을 자리를 먼저 눌러도 되고, 마음에 안 들면 되돌리기 한 번이면 돼요.</p>
+        <p>고양이는 침대 위, 러그, 장난감 곁으로 자리를 옮겨 다녀요. 꾸민 방은 홈 화면 무대에도 그대로 보여요.</p>
+      </div>
+      <div class="shot"><img src="assets/screen_room.jpg" alt="냥마을 방 꾸미기 화면: 창가와 침대, 책상이 놓인 방과 아래쪽 가구 고르기 목록" width="600" height="1304" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="slot night" aria-labelledby="t-night">
+    <div class="wrap">
+      <div class="copy">
+        <span class="clock"><img src="assets/icon_moon.png" alt="">밤 11:00 · 밤</span>
+        <h3 id="t-night">냥일기가 하루를 정리해요</h3>
+        <p>몇 개를 해냈는지, 얼마나 집중했는지에 따라 고양이 일기 장면이 달라져요. 하나도 못 한 날엔 고양이가 토닥이며 잠들어요. 오늘의 기분과 한 줄, 스티커와 사진을 남겨요.</p>
+        <p>친구에게 공유할 때는 일정 제목과 일기 글을 기본으로 빼고, 완료한 개수와 고양이 장면만 담아요. 전화번호처럼 보이는 글은 가려 드려요.</p>
+      </div>
+      <div class="shot"><img src="assets/screen_share.jpg" alt="냥일기 공유 카드: 보랏빛 밤 지붕 위 고양이와 '다 해낸 하루, 뿌듯하다냥!' 문구" width="600" height="1304" loading="lazy"></div>
+    </div>
+  </section>
+
+  <section class="widgets" id="widgets" aria-labelledby="t-widgets">
+    <div class="wrap">
+      <div class="copy">
+        <h2 id="t-widgets">앱을 열지 않아도, 위젯에서 바로 체크</h2>
+        <p>홈 화면 위젯(작게·중간·크게)과 잠금 화면 위젯으로 오늘의 약속을 확인해요. 중간·큰 위젯에서는 동그라미를 눌러 바로 체크하고, 냥별은 앱을 열 때 규칙대로 한 번만 받아요.</p>
+      </div>
+      <div class="widget-row">
+        <img class="widget-shot widget-shot--medium" src="assets/widget_medium.webp" width="364" height="170" loading="lazy"
+             alt="중간 크기 홈 화면 위젯: 오늘의 약속 1/3, 고양이 모찌, 과제 마무리하기(완료)·친구랑 점심 약속 오후 1:00·운동하기 오후 6:00 체크 동그라미">
+        <img class="widget-shot widget-shot--small" src="assets/widget_small.webp" width="170" height="170" loading="lazy"
+             alt="작은 홈 화면 위젯: 오늘의 약속 1/3, 다음 약속 친구랑 점심 약속">
+        <div class="lock" role="img" aria-label="잠금 화면 위젯 예시: 오늘의 약속 1/3, 다음 약속 친구랑 점심 약속">
+          <div class="lock-time">9:41</div>
+          <div class="lock-widgets">
+            <div class="lock-ring"><span>🐾</span><b>1/3</b></div>
+            <div class="lock-rect"><b>🐾 오늘의 약속 1/3</b><span>친구랑 점심 약속</span><small>오후 1:00</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="themes" id="themes" aria-labelledby="t-themes">
+    <div class="wrap">
+      <h2 id="t-themes">방 분위기를 바꾸는 테마 여섯 가지</h2>
+      <p>테마를 바꾸면 벽지·바닥·창문과 창밖 풍경, 방 안에 떠다니는 것까지 함께 바뀌어요. 꾸며 둔 가구와 소품은 그대로예요.</p>
+      <div class="theme-grid">
+        <figure><img src="assets/theme_t01.jpg" alt="따뜻한 방 테마: 크림색 벽과 나무 바닥, 햇살 드는 창" width="480" height="414" loading="lazy"><figcaption><b>따뜻한 방</b><span>기본</span></figcaption></figure>
+        <figure><img src="assets/theme_t02.jpg" alt="벚꽃 방 테마: 분홍 벽지와 카펫, 벚꽃잎이 흩날리는 창" width="480" height="414" loading="lazy"><figcaption><b>벚꽃 방</b><span>PLUS</span></figcaption></figure>
+        <figure><img src="assets/theme_t03.jpg" alt="여름 바닷가 테마: 파란 줄무늬 벽과 동그란 바다 창" width="480" height="414" loading="lazy"><figcaption><b>여름 바닷가</b><span>PLUS</span></figcaption></figure>
+        <figure><img src="assets/theme_t04.jpg" alt="가을 노을 테마: 주황빛 벽과 노을이 비치는 아치 창, 떨어지는 낙엽" width="480" height="414" loading="lazy"><figcaption><b>가을 노을</b><span>PLUS</span></figcaption></figure>
+        <figure><img src="assets/theme_t05.jpg" alt="겨울 눈 오는 방 테마: 통나무 벽과 눈 쌓인 창, 내리는 눈" width="480" height="414" loading="lazy"><figcaption><b>겨울 눈 오는 방</b><span>PLUS</span></figcaption></figure>
+        <figure><img src="assets/theme_t06.jpg" alt="별빛 밤 테마: 보랏빛 밤하늘 벽지와 반짝이는 별, 가로등 켜진 창밖" width="480" height="414" loading="lazy"><figcaption><b>별빛 밤</b><span>PLUS</span></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="cats" id="cats" aria-labelledby="t-cats">
+    <div class="wrap">
+      <h2 id="t-cats">함께 살 고양이를 골라요</h2>
+      <div class="cat-grid">
+        <article class="cat"><img src="assets/cat_mochi_sit.png" alt="치즈 무늬 고양이 모찌"><div><h3>모찌</h3><p>느긋하고 애교 많은 치즈냥</p></div></article>
+        <article class="cat"><img src="assets/cat_haru_sit.png" alt="고등어 무늬 고양이 하루"><div><h3>하루</h3><p>호기심 많고 활발한 고등어냥</p></div></article>
+        <article class="cat"><img src="assets/cat_bami_sit.png" alt="까만 고양이 밤이"><div><h3>밤이</h3><p>조용하고 다정한 까만냥</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="plus" id="plus" aria-labelledby="t-plus">
+    <div class="wrap">
+      <div>
+        <h2 id="t-plus">틈냥 PLUS</h2>
+        <p>기본 기능은 모두 무료예요. 방을 더 다양하게 꾸미고 싶다면 PLUS로 열어 보세요.</p>
+        <p class="note">월간·연간(처음이면 7일 무료 체험)·평생 이용권 중에서 고를 수 있어요. 가격은 App Store 앱 안에서 안내해요. 해지해도 꾸며 둔 방은 지워지지 않고, 다시 가입하면 그대로 돌아와요.</p>
+      </div>
+      <ul class="perks">
+        <li><img src="assets/decor_window_basic.png" alt=""><div><b>프리미엄 테마 다섯 가지</b><span>벚꽃, 여름 바닷가, 가을 노을, 겨울 눈, 별빛 밤</span></div></li>
+        <li><img src="assets/decor_lamp_moon.png" alt=""><div><b>한정 가구와 소품</b><span>벚꽃 침대, 별 조명, 밤하늘 벽지 등 PLUS 전용 꾸미기를 사지 않고 바로 놓아요</span></div></li>
+        <li><img src="assets/icon_sun.png" alt=""><div><b>특별한 알람음</b><span>하프 아침, 칼림바</span></div></li>
+        <li><img src="assets/icon_churu.png" alt=""><div><b>매일 냠냠이 선물</b><span>하루 선물에 냠냠이 20개를 더 받아요</span></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="faq" id="faq" aria-labelledby="t-faq">
+    <div class="wrap">
+      <h2 id="t-faq">자주 묻는 질문</h2>
+      <div>
+        <details open><summary>무료로 쓸 수 있나요?</summary><p>네. 일정과 오늘의 약속, 캘린더, 알람, 집중 타이머, 냥일기, 방 꾸미기, 위젯 같은 기본 기능은 무료예요. 추가 테마와 일부 가구·알람음은 PLUS에서 열려요.</p></details>
+        <details><summary>광고가 나오나요?</summary><p>화면을 가리는 광고는 없어요. 냠냠이가 더 필요할 때 원하면 짧은 영상을 보고 받는 기능을 준비하고 있어요. PLUS에서는 광고가 나오지 않아요.</p></details>
+        <details><summary>내 일정은 어디에 저장되나요?</summary><p>내 휴대폰 안에 저장돼서 인터넷이 없어도 쓸 수 있어요. 휴대폰을 바꿀 때는 마이 → 기록 백업에서 파일로 내보내고, 새 휴대폰에서 가져오면 돼요.</p></details>
+        <details><summary>알람은 무음 모드에서도 울리나요?</summary><p>iOS 26 이상에서는 시스템 알람으로 예약해 무음·집중 모드에서도 울려요. 그보다 낮은 버전에서는 알림으로 알려 드리고, 알람 화면에 그 사실을 안내해요.</p></details>
+        <details><summary>위젯이 있나요?</summary><p>네. 홈 화면에 작게·중간·크게, 잠금 화면에 동그라미·네모·한 줄 위젯이 있어요. 위젯에서 체크한 약속은 앱을 열 때 냥별과 함께 반영돼요.</p></details>
+        <details><summary>친구와 일정을 나눌 수 있나요?</summary><p>친구와 일정을 나누는 기능과, 친구를 초대하면 둘 다 고양이 간식을 받는 초대 선물을 준비하고 있어요.</p></details>
+        <details><summary>안드로이드에서도 쓸 수 있나요?</summary><p>아이폰 버전을 먼저 출시하고, 안드로이드 버전은 그다음에 준비해요.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="brand">틈냥</span>
+    <span><a href="privacy.html">개인정보처리방침</a> · <a href="terms.html">이용약관</a> · <a href="support.html">고객지원</a></span>
+    <span>© 2026 로직파트너스</span>
+    <p class="biz">상호 로직파트너스 · 대표 손지훈 · 사업자등록번호 321-42-01060 · 통신판매업 신고 2022-서울강남-01190호 · 서울특별시 강남구 언주로134길 6 · 문의 <a href="mailto:ainam0727@gmail.com">ainam0727@gmail.com</a></p>
+  </div>
+</footer>
