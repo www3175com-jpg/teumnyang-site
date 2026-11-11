@@ -6,8 +6,8 @@
   --ink-soft: #85786c;
   --navy: #5b6a8e;
   --todo: #fff1b8;
-  --display: "Gaegu", "Nanum Pen Script", "Apple SD Gothic Neo", "Noto Sans KR", cursive;
-  --body: "Gowun Dodum", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  --display: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --body: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
@@ -33,12 +33,12 @@ header.top {
   background: var(--card);
 }
 header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 60px; }
-.brand { font-family: var(--display); font-size: 30px; font-weight: 700; color: var(--ink); text-decoration: none; }
+.brand { font-family: var(--display); font-size: 25px; font-weight: 800; letter-spacing: -0.02em; color: var(--ink); text-decoration: none; }
 nav.legal-nav { display: flex; gap: 14px; flex-wrap: wrap; font-size: 14px; }
 nav.legal-nav a { color: var(--ink-soft); text-decoration: none; padding: 10px 2px; }
 nav.legal-nav a[aria-current="page"] { color: var(--navy); font-weight: 700; }
 main { padding: 32px 0 56px; }
-h1 { font-family: var(--display); font-size: 40px; line-height: 1.2; margin: 0 0 6px; }
+h1 { font-family: var(--display); font-size: 32px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.25; margin: 0 0 6px; }
 .updated { color: var(--ink-soft); font-size: 14px; margin: 0 0 24px; }
 h2 { font-size: 19px; margin: 34px 0 8px; padding-top: 8px; border-top: 1px dashed var(--line); }
 h3 { font-size: 16px; margin: 18px 0 4px; }
