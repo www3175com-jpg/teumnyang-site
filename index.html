@@ -102,6 +102,8 @@ h1 .soft { color: var(--coral); }
   border-radius: 999px; background: var(--navy); color: #fff; font-size: 15px; line-height: 1.25;
 }
 .store small { display: block; font-size: 12px; opacity: 0.85; }
+a.store { text-decoration: none; }
+a.store:hover, a.store:focus-visible { filter: brightness(1.12); }
 .store.quiet { background: transparent; color: var(--ink-soft); border: 1.5px dashed var(--line); }
 .store svg { width: 22px; height: 22px; flex: none; }
 
@@ -280,10 +282,10 @@ footer .biz { flex-basis: 100%; margin: 0; font-size: 12.5px; line-height: 1.6; 
         <h1>꼭 해야 할 3가지,<br><span class="soft">고양이랑</span> 같이 해요.</h1>
         <p class="lede">할 일은 몇 개든 적어도 괜찮아요. 그중 꼭 해야 할 3가지만 고르면, 방 안의 고양이가 하루 내내 곁에서 응원해요. 숨 쉬고 그루밍하고, 톡 건드리면 애교도 부려요. 해낼 때마다 냥별이 쌓이고, 고양이 방이 조금씩 예뻐져요.</p>
         <div class="stores">
-          <span class="store" role="note">
+          <a class="store" href="https://apps.apple.com/kr/app/id6829166023">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.4 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.5.9-.7 0-1.9-.9-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.5.8 1.1 1.7 2.4 2.9 2.4 1.2 0 1.6-.8 3-.8s1.8.8 3 .7c1.3 0 2.1-1.1 2.8-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.3-.9-2.3-3.9zM14.1 5.8c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.8 1.4-.6.7-1.1 1.8-1 2.9 1.1.1 2.1-.5 2.8-1.3z"/></svg>
-            <span>App Store<small>출시 준비 중</small></span>
-          </span>
+            <span><small>지금 받기</small>App Store</span>
+          </a>
           <span class="store quiet" role="note">Google Play<br>아이폰 버전 다음에 준비해요</span>
         </div>
       </div>
